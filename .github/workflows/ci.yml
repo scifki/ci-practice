@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2, 3, 4]
+        shard: [1, 2]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -31,14 +31,22 @@ jobs:
           python-version: "3.12"
           cache: pip
       - run: pip install -r requirements.txt
-      - run: pytest -m "not quarantine" --splits 4 --group ${{ matrix.shard }} --junitxml=report-${{ matrix.shard }}.xml
+      - run: pytest -m "not quarantine" --splits 2 --group ${{ matrix.shard }} --junitxml=report-${{ matrix.shard }}.xml
       - name: Save test report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: junit-report-${{ matrix.shard }}
-<<<<<<< HEAD
           path: report-${{ matrix.shard }}.xml
-=======
-          path: report-${{ matrix.shard }}.xml
->>>>>>> 4d99684e0e81a51d4db4086cf05d58b8b65ea615
+
+  quarantine:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: pytest -m quarantine -v
