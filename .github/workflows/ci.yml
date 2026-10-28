@@ -1,4 +1,3 @@
-# rerun
 name: CI
 
 on:
@@ -16,7 +15,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install ruff
-      - run: ruff check .
+      - run: cd ci-practice && ruff check .
 
   unit:
     needs: lint
@@ -30,12 +29,11 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
-      - run: pip install -r requirements.txt
-      - run: pytest -v --junitxml=report-${{ matrix.python-version }}.xml
+      - run: cd ci-practice && pip install -r requirements.txt
+      - run: cd ci-practice && pytest -v --junitxml=report-${{ matrix.python-version }}.xml
       - name: Save test report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: junit-report-${{ matrix.python-version }}
-          path: report-${{ matrix.python-version }}.xml
-        
+          path: ci-practice/report-${{ matrix.python-version }}.xml
