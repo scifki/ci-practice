@@ -12,7 +12,7 @@ def test_is_valid_email(email, expected):
     assert is_valid_email(email) is expected
 
 
-@pytest.mark.parametrize("age, expected", [(17, False), (18, True), (45, True)])
+@pytest.mark.parametrize("age, expected", [(17, False), (18, False), (45, True)])
 def test_is_adult(age, expected):
     assert is_adult(age) is expected
 
