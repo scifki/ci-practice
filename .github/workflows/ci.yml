@@ -37,4 +37,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: junit-report-${{ matrix.shard }}
+<<<<<<< HEAD
           path: report-${{ matrix.shard }}.xml
+=======
+          path: report-${{ matrix.shard }}.xml
+>>>>>>> 4d99684e0e81a51d4db4086cf05d58b8b65ea615
